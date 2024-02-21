@@ -8,19 +8,18 @@ TEST(GROUP1, baseTest) {
   Allocator allocator;
   allocator.makeAllocator(10);
   char* mem1 = allocator.alloc(10);
-  char* str1 = "123456789";
-  strcpy(mem1, str1);
+  mem1 = "123456789";
   std::string str2(mem1);
   ASSERT_EQ("123456789", str2);
 }
-//тест проверяет, что если попытаться выделить alloc слишком большое количество байт, то вернется nullptr
+// тест проверяет, что если попытаться выделить alloc слишком большое количество байт, то вернется nullptr
 TEST(GROUP1, nullptrAllocTest) {
   Allocator allocator;
   allocator.makeAllocator(10);
   char* mem1 = allocator.alloc(11);
   ASSERT_EQ(mem1, nullptr);
 }
-//тест проверяет, что можно вызывать alloc несколько раз
+// тест проверяет, что можно вызывать alloc несколько раз
 TEST(GROUP1, manyAllocTest) {
   Allocator allocator;
   allocator.makeAllocator(10);
@@ -31,7 +30,7 @@ TEST(GROUP1, manyAllocTest) {
   ASSERT_EQ(mem1,"abcde");
   ASSERT_EQ(mem2,"abc");
 }
-//тест проверяет работу метода reset
+// тест проверяет работу метода reset
 TEST(GROUP1, resetTest) {
   Allocator allocator;
   allocator.makeAllocator(10);
@@ -40,7 +39,7 @@ TEST(GROUP1, resetTest) {
   char* mem2 = allocator.alloc(4);
   ASSERT_EQ(mem1,mem2);
 }
-//тест проверяет, что метод makeAllocator можно вызывать несколько раз
+// тест проверяет, что метод makeAllocator можно вызывать несколько раз
 TEST(GROUP1, manyMakeAllocatorTest) {
   Allocator allocator;
   allocator.makeAllocator(10);
