@@ -1,5 +1,5 @@
 CXX = g++
-CXXFLAGS = -g -Wall -Wextra 
+CXXFLAGS = -std=c++20 -g -Wall -Wextra 
 VALGRIND_OPTS = --leak-check=full --show-leak-kinds=all --track-origins=yes
 GTESTFLAGS = -lgtest -lgtest_main -pthread  
 TARGET = prog
