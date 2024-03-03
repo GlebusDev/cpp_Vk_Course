@@ -42,11 +42,13 @@ void TokenParser::parse(const std::string& sourceString) {
         bool isDigit = true;
         // проверка что токен является числом
         for (size_t j = 0; j < token.length(); j++) {
-            if (!std::isdigit(token[j])) isDigit = false;
+            if (!std::isdigit(token[j]))
+                isDigit = false;
         }
         // проверка что число помещается в uint64_t
         std::string uint64MaxValue = std::to_string(UINT64_MAX);
-        if (token.length() > uint64MaxValue.length()) isDigit = false;
+        if (token.length() > uint64MaxValue.length())
+            isDigit = false;
         if (token.length() == uint64MaxValue.length() && token > uint64MaxValue)
             isDigit = false;
         if (isDigit) {
