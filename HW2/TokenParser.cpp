@@ -34,9 +34,9 @@ void TokenParser::parse(const std::string& sourceString) {
                 if (stringTokenCallback != nullptr)
                     stringTokenCallback(token);
                 token = "";
+            } else {
+                token.push_back(sourceString[i]);
             }
-        else
-            token.push_back(sourceString[i]);
     }
     // обработка последнего токена
     if (token.length() != 0) {
@@ -56,9 +56,10 @@ void TokenParser::parse(const std::string& sourceString) {
         if (isDigit) {
             if (digitTokenCallback != nullptr)
                 digitTokenCallback(std::stoull(token));
-        } else
+        } else {
         if (stringTokenCallback != nullptr)
             stringTokenCallback(token);
+        }
     }
     if (endCallback != nullptr)
         endCallback();
