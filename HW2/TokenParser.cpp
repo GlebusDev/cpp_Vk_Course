@@ -1,75 +1,45 @@
 #include "TokenParser.h"
 
+#include <sstream>
+
 void TokenParser::parse(const std::string& sourceString) {
     if (sourceString.length() == 0)
         return;
     if (startCallback != nullptr)
         startCallback();
+
+    std::stringstream stream(sourceString);
     std::string token;
-    for (size_t i = 0; i < sourceString.length(); i++) {
-        // если встретились эти символы, то токен заканчился
-        if (sourceString[i] == ' ' || sourceString[i] == '\t' || 
-            sourceString[i] == '\n') {
-                if (token.length() == 0)
-                    continue;
-                bool isDigit = true;
-                // проверка что токен является числом
-                for (size_t j = 0; j < token.length(); j++) {
-                    if (!std::isdigit(token[j]))
-                        isDigit = false;
-                }
-                // проверка что число помещается в uint64_t
-                std::string uint64MaxValue = std::to_string(UINT64_MAX);
-                if (token.length() > uint64MaxValue.length())
-                    isDigit = false;
-                if (token.length() == uint64MaxValue.length() && token > uint64MaxValue)
-                    isDigit = false;
-                if (isDigit) {
-                    if (digitTokenCallback != nullptr) {
-                        digitTokenCallback(std::stoull(token));
-                    }
-                    token = "";
-                    continue;
-                }
-                if (stringTokenCallback != nullptr)
-                    stringTokenCallback(token);
-                token = "";
-            } else {
-                token.push_back(sourceString[i]);
-            }
-    }
-    // обработка последнего токена
-    if (token.length() != 0) {
+    while (stream >> token) {
         bool isDigit = true;
         // проверка что токен является числом
         for (size_t j = 0; j < token.length(); j++) {
-            if (!std::isdigit(token[j])) {
+            if (!std::isdigit(token[j]))
+                isDigit = false;
+        }
+
+        if (isDigit) {
+            try {
+                uint64_t temp = std::stoull(token);
+                if (digitTokenCallback != nullptr)
+                    digitTokenCallback(temp);
+            } catch(std::out_of_range& error) {
                 isDigit = false;
             }
         }
-        // проверка что число помещается в uint64_t
-        std::string uint64MaxValue = std::to_string(UINT64_MAX);
-        if (token.length() > uint64MaxValue.length())
-            isDigit = false;
-        if (token.length() == uint64MaxValue.length() && token > uint64MaxValue)
-            isDigit = false;
-        if (isDigit) {
-            if (digitTokenCallback != nullptr)
-                digitTokenCallback(std::stoull(token));
-        } else {
-        if (stringTokenCallback != nullptr)
+        if (!isDigit && stringTokenCallback != nullptr)
             stringTokenCallback(token);
-        }
+        token = "";
     }
     if (endCallback != nullptr)
-        endCallback();
+            endCallback();
 }
 
 void TokenParser::setDigitTokenCallback(std::function<void(uint64_t)> callbackFunction) {
     digitTokenCallback = callbackFunction;
 }
 
-void TokenParser::setStringTokenCallback(std::function<void(std::string)> callbackFunction) {
+void TokenParser::setStringTokenCallback(std::function<void(const std::string&)> callbackFunction) {
     stringTokenCallback = callbackFunction;
 }
 

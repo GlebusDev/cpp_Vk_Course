@@ -70,7 +70,7 @@ TEST(TOKEN_PARSER_TESTS, digitValueTest) {
 // тест проверяет передачу токена в stringTokenCallback
 TEST(TOKEN_PARSER_TESTS, stringValueTest) {
     static std::string token;
-    std::function<void(std::string)> stringCallback = [](std::string s){
+    std::function<void(const std::string&)> stringCallback = [](const std::string& s){
         token = s;
     };
     TokenParser parser;
@@ -94,7 +94,7 @@ TEST(TOKEN_PARSER_TESTS, separatorTest) {
     std::function<void(uint64_t)> digitCallback = [](uint64_t){
         digitCallbackCounter++;
     };
-    std::function<void(std::string)> stringCallback = [](std::string){
+    std::function<void(const std::string&)> stringCallback = [](const std::string&){
         stringCallbackCounter++;
     };
     TokenParser parser;
