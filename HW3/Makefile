@@ -19,3 +19,6 @@ memory: testCompile
 	valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes ./test
 clear:
 	rm *.o $(TARGET) test
+
+debug:
+	gdb ./$(TARGET)
