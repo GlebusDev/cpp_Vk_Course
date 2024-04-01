@@ -7,7 +7,7 @@ all: build
 build: $(TARGET)
 $(TARGET): Matrix.o main.cpp
 	$(CXX) $(CXXFLAGS) Matrix.o main.cpp -o $(TARGET)
-TokenParser.o:
+Matrix.o:
 	$(CXX) $(CXXFLAGS) -c Matrix.cpp -o Matrix.o
 run: build
 	./$(TARGET)
