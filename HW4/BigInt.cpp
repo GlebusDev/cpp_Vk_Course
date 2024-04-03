@@ -2,6 +2,8 @@
 
 #include <cmath>
 
+#include <algorithm>
+
 BigInt::BigInt() {
     sign = false;
     length = 1;
@@ -14,8 +16,9 @@ BigInt::BigInt(const std::string& s) {
     if (s[0] == '-') {
         sign = true;    
         slen--;
-    } else 
+    } else {
         sign = false;
+    }
 
     if (slen % 9 == 0)
         length = slen / 9;
@@ -24,7 +27,7 @@ BigInt::BigInt(const std::string& s) {
 
     data = new uint32_t[length];
 
-    long index = s.length() - 1;
+    int64_t index = s.length() - 1;
     for (size_t i = 0; i < length; i++) {
         data[i] = 0;
         int left = -1;
@@ -83,7 +86,7 @@ BigInt& BigInt::operator=(BigInt&& num2) {
 std::ostream& operator<<(std::ostream& os, const BigInt& num) {
     if (num.sign)
         os << "-";
-    for (long i = num.length - 1; i >= 0; i--) {
+    for (int64_t i = num.length - 1; i >= 0; i--) {
         os << num.data[i];
     }
     os << std::endl;
@@ -110,7 +113,7 @@ bool BigInt::operator>(const BigInt& num2) const {
             return true;
         return false;
     }
-    for (long i = length - 1; i >= 0; i--) {
+    for (int64_t i = length - 1; i >= 0; i--) {
         if (data[i] != num2.data[i]) {
             if (data[i] > num2.data[i])
                 return true;
@@ -265,7 +268,7 @@ std::string BigInt::getString() const {
     std::string s = "";
     if (sign)
         s.append("-");
-    for (long i = length - 1; i >= 0; i--)
+    for (int64_t i = length - 1; i >= 0; i--)
         s.append(std::to_string(data[i]));
     return s;
 }
