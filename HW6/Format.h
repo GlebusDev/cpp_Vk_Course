@@ -67,4 +67,4 @@ template <HasOutputOperator... Args>
 std::string format(std::string expr, Args... args) {
     checkString(expr, sizeof...(args));
     return formatOneArg(expr, 0, args...);
-};
+}
