@@ -13,7 +13,7 @@ template <class T>
 concept HasOutputOperator =
     requires(std::ostream& stream, T arg) {
         {stream << arg} -> std::same_as<std::ostream&>;
-    };
+}; //NOLINT
 
 // чтобы компилятор не ругался на отсутствие функции не принимающей args
 std::string formatOneArg(std::string expr, size_t index) {return "";}

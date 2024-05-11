@@ -3,7 +3,7 @@
 #include "Format.h"
 
 struct A {
-        A(int a) {
+        explicit A(int a) {
             this->a = a;
         }
         int a;
